@@ -1,0 +1,7 @@
+SCAR/data/*
+
+SCAR/pretrain/*
+
+SCAR/attack/*
+
+SCAR/distillation/*
