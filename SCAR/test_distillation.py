@@ -14,11 +14,14 @@ parser = argparse.ArgumentParser(description='Test Distillation')
 parser.add_argument('--gpu_id', '-g', type=str, default='0')
 parser.add_argument('--dl_method', '-m', type=str, default='response')
 parser.add_argument('--teacher_model', '-t', type=str, default='resnet50')
+parser.add_argument('--surrogate_model', '-r', type=str, default='resnet18')
 parser.add_argument('--student_model', '-s', type=str, default='mobilenetv2')
 parser.add_argument('--dataset', '-d', type=str, default='cifar10')
 parser.add_argument('--target_label', type=int, default=0)
 parser.add_argument('--batch_size', type=int, default=128)
 parser.add_argument('--delta', type=float, default=1)
+parser.add_argument('--epsilon', '-e', type=float, default=0.1)
+
 
 args = parser.parse_args()
 
@@ -31,12 +34,12 @@ utils.config_logging(save_path)
 for arg, value in args.__dict__.items():
     logger.info(arg + ':' + str(value))
 
-teacher_path = f'attack/{args.dataset}/{args.teacher_model}/ckp'
+teacher_path = f'attack/{args.dataset}/{args.teacher_model}/{args.surrogate_model}/ckp'
 files = [f for f in os.listdir(teacher_path) if os.path.isfile(os.path.join(teacher_path, f))]
 largest_file = max(files)
 teacher_path = os.path.join(teacher_path, largest_file)
 
-poisoner_path = f'pretrain/{args.dataset}/{args.teacher_model}/poisoner.pth'
+poisoner_path = f'pretrain/{args.dataset}/{args.teacher_model}/poisoner_{args.epsilon}.pth'
 logger.info(f'teacher_path: {teacher_path}')
 logger.info(f'poisoner_path: {poisoner_path}')
 

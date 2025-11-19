@@ -5,3 +5,5 @@ SCAR/pretrain/*
 SCAR/attack/*
 
 SCAR/distillation/*
+
+*__pycache__/
